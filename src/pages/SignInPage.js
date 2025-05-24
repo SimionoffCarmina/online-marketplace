@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './SignInPage.css';
 
-function SignInPage() {
+function SignInPage({ onLogin }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,8 +25,18 @@ function SignInPage() {
       return;
     }
 
+    const firstName = localStorage.getItem('firstName') || '';
+    const lastName = localStorage.getItem('lastName') || '';
+
     setError('');
     alert(`Signed in as ${email}`);
+
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('firstName', firstName);
+    localStorage.setItem('lastName', lastName);
+
+    onLogin();
     navigate('/'); 
   };
 

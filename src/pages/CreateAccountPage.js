@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './CreateAccountPage.css';
 
-function CreateAccountPage() {
+function CreateAccountPage({ onLogin }) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,6 +12,7 @@ function CreateAccountPage() {
   });
 
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,7 +27,16 @@ function CreateAccountPage() {
     }
 
     setError('');
+
+    localStorage.setItem('firstName', formData.firstName);
+    localStorage.setItem('lastName', formData.lastName);
+    localStorage.setItem('userEmail', formData.email);
+    localStorage.setItem('isLoggedIn', 'true');
+
     alert(`Account created for ${formData.firstName} ${formData.lastName}!`);
+
+    onLogin();
+    navigate('/');
   };
 
   return (
